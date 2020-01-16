@@ -3,11 +3,17 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.stream.Stream;
+import javax.swing.filechooser.*;
 
 public class TestownikEdytor {
     Question question;
-
+    File currentDirectory;
 
     public Question getQuestion() {
         return question;
@@ -23,19 +29,68 @@ public class TestownikEdytor {
         question.setText("");
     }
 
-    public TestownikEdytor() {
-        newQuestion();
+    private String fileToString(File file) throws IOException {
+        StringBuilder temp = new StringBuilder();
 
         try {
-            question = new Question("136","X0111\n" +
-                    "Generator impulsów testowych zgodny z wymaganiami CCITT K-17 umożliwia badanie urządzeń telekomunikacyjnych dołączonych do:\n" +
-                    "linii światłowodowych\n" +
-                    "linii typu symetrycznej i nie symetrycznej\n" +
-                    "przewodów interfejsowych\n" +
-                    "przewodów zasilających");
-        } catch (Exception e) {
+            Stream<String> stream = Files.lines(file.toPath(), Charset.forName("windows-1250"));
+            stream.forEach(s -> temp.append(s).append("\n"));
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
+        return temp.toString();
+    }
+
+    private void saveAs() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(currentDirectory);
+        fc.setFileFilter(new FileFilter() {
+            @Override
+            public boolean accept(File file) {
+                if (file.isDirectory()) {
+                    return true;
+                }
+
+                return file.getName().endsWith(".txt");
+            }
+
+            @Override
+            public String getDescription() {
+                return "Pytanie (*.txt)";
+            }
+        });
+
+        fc.setSelectedFile(new File(question.getName()+".txt"));
+
+        int val = fc.showSaveDialog(null);
+
+        if (val==0) {
+            File file = fc.getSelectedFile();
+            int val1 = 0;
+
+            if (file.exists()) {
+                val1 = JOptionPane.showConfirmDialog(null, "Wybrany plik istnieje!\n Czy nadpisać?", "Błąd", JOptionPane.YES_NO_OPTION);
+            }
+
+            if (val1==0) {
+                if (!file.getName().endsWith(".txt")) file = new File(file.getAbsolutePath()+".txt");
+
+                try {
+                    Files.writeString(file.toPath(), question.toTxt(), Charset.forName("windows-1250"));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            question.setName(file.getName().substring(0, file.getName().length()-4));
+            currentDirectory = fc.getCurrentDirectory();
+        }
+    }
+
+    public TestownikEdytor() {
+        newQuestion();
+        currentDirectory = new File(".");
     }
 
     private JMenuBar createJMenu() {
@@ -73,8 +128,41 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //File dialog *.txt
-                //Expection Dialog
+                JFileChooser fc = new JFileChooser();
+                fc.setCurrentDirectory(currentDirectory);
+                fc.setFileFilter(new FileFilter() {
+                    @Override
+                    public boolean accept(File file) {
+                        if (file.isDirectory()) {
+                            return true;
+                        }
+
+                        return file.getName().endsWith(".txt");
+                    }
+
+                    @Override
+                    public String getDescription() {
+                        return "Pytanie (*.txt)";
+                    }
+                });
+
+                int val = fc.showOpenDialog(null);
+
+                if (val==0) {
+                    File file = fc.getSelectedFile();
+                    String name = file.getName().substring(0,file.getName().length()-4);
+
+                    try {
+                        question = new Question(name, fileToString(file));
+
+                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+                        frame.setContentPane(createContentPane());
+                        frame.validate();
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(null, e.getMessage(), name, JOptionPane.ERROR_MESSAGE);
+                    }
+                    currentDirectory = fc.getCurrentDirectory();
+                }
             }
         });
 
@@ -86,8 +174,16 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //if exist save without dialog
-                //else file dialog name.txt
+                File file = new File(currentDirectory.getAbsolutePath()+"\\"+question.getName()+".txt");
+
+                if (file.exists()) {
+                    try {
+                        Files.writeString(file.toPath(), question.toTxt(), Charset.forName("windows-1250"));
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+                else saveAs();
             }
         });
 
@@ -99,7 +195,7 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //File dialog name.txt
+                saveAs();
             }
         });
 
@@ -152,7 +248,7 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //Mini help
+                JOptionPane.showMessageDialog(null, "?", "?", JOptionPane.PLAIN_MESSAGE);
             }
         });
 
@@ -163,8 +259,7 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                //Info
-                System.out.println(question.debugString());
+                JOptionPane.showMessageDialog(null, question.debugString(), "?", JOptionPane.PLAIN_MESSAGE);
             }
         });
 

@@ -76,10 +76,10 @@ public class Question {
 
         String configLine = sc.nextLine().toUpperCase();
         if (configLine.charAt(0) == 'Y') {
-            throw new Exception(name + ": Tylko pytania standardowe są wspierane!");
+            throw new Exception("Tylko pytania standardowe są wspierane!");
         }
         if (configLine.charAt(0) != 'X') {
-            throw new Exception(name + ": Plik nie zawiera pytania!");
+            throw new Exception("Plik nie zawiera pytania!");
         }
         configLine = configLine.substring(1);
 
