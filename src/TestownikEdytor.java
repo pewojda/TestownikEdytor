@@ -17,12 +17,28 @@ public class TestownikEdytor {
         this.question = question;
     }
 
-    public TestownikEdytor() {
+    private void newQuestion() {
         question = new Question();
-        question.setName("0");
+        question.setName("000");
+        question.setText("");
     }
 
-    private JMenuBar createJMenu(JFrame frame) {
+    public TestownikEdytor() {
+        newQuestion();
+
+        try {
+            question = new Question("136","X0111\n" +
+                    "Generator impulsów testowych zgodny z wymaganiami CCITT K-17 umożliwia badanie urządzeń telekomunikacyjnych dołączonych do:\n" +
+                    "linii światłowodowych\n" +
+                    "linii typu symetrycznej i nie symetrycznej\n" +
+                    "przewodów interfejsowych\n" +
+                    "przewodów zasilających");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private JMenuBar createJMenu() {
         JMenuBar menuBar;
         JMenu menu;
         JMenuItem menuItem;
@@ -41,10 +57,10 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                question = new Question();
-                question.setName("0");
+                newQuestion();
 
-                frame.setContentPane(createContentPane(frame));
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+                frame.setContentPane(createContentPane());
                 frame.validate();
             }
         });
@@ -54,15 +70,38 @@ public class TestownikEdytor {
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_O, InputEvent.CTRL_DOWN_MASK));
         menu.add(menuItem);
 
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //File dialog *.txt
+                //Expection Dialog
+            }
+        });
+
         menuItem = new JMenuItem("Zapisz");
         menuItem.setMnemonic(KeyEvent.VK_Z);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK));
         menu.add(menuItem);
 
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //if exist save without dialog
+                //else file dialog name.txt
+            }
+        });
+
         menuItem = new JMenuItem("Zapisz Jako...");
         menuItem.setMnemonic(KeyEvent.VK_S);
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_S, InputEvent.CTRL_DOWN_MASK | InputEvent.SHIFT_DOWN_MASK));
         menu.add(menuItem);
+
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //File dialog name.txt
+            }
+        });
 
         menuItem = new JMenuItem("Wyjdź");
         menuItem.setMnemonic(KeyEvent.VK_W);
@@ -72,6 +111,7 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
                 frame.dispatchEvent(new WindowEvent(frame, WindowEvent.WINDOW_CLOSING));
             }
         });
@@ -85,6 +125,21 @@ public class TestownikEdytor {
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_DOWN_MASK));
         menu.add(menuItem);
 
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                ArrayList<Object> answerEntry = new ArrayList<>();
+                answerEntry.add("");
+                answerEntry.add(false);
+
+                question.getAnswers().add(answerEntry);
+
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+                frame.setContentPane(createContentPane());
+                frame.validate();
+            }
+        });
+
         menu = new JMenu("Pomoc");
         menu.setMnemonic(KeyEvent.VK_O);
         menuBar.add(menu);
@@ -94,21 +149,36 @@ public class TestownikEdytor {
         menuItem.setAccelerator(KeyStroke.getKeyStroke(KeyEvent.VK_F1, InputEvent.ALT_DOWN_MASK));
         menu.add(menuItem);
 
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //Mini help
+            }
+        });
+
         menuItem = new JMenuItem("O...");
         menuItem.setMnemonic(KeyEvent.VK_O);
         menu.add(menuItem);
 
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                //Info
+                System.out.println(question.debugString());
+            }
+        });
+
         return menuBar;
     }
 
-    public Container createContentPane(JFrame frame) {
+    public Container createContentPane() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         JScrollPane scrollPane = new JScrollPane(questionTextPanel());
         panel.add(scrollPane);
 
-        scrollPane = new JScrollPane(answersPanel(frame));
+        scrollPane = new JScrollPane(answersPanel());
         panel.add(scrollPane);
 
         return panel;
@@ -118,6 +188,7 @@ public class TestownikEdytor {
         JPanel panel = new JPanel(new BorderLayout());
 
         JTextArea textArea = new JTextArea(question.getText());
+        textArea.setLineWrap(true);
         panel.add(textArea);
 
         textArea.getDocument().addDocumentListener(new DocumentListener() {
@@ -140,35 +211,47 @@ public class TestownikEdytor {
         return panel;
     }
 
-    public Container answersPanel(JFrame frame) {
+    public Container answersPanel() {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
         for (ArrayList<Object> answer : question.getAnswers()) {
-            panel.add(answerPanel(answer, frame));
+            panel.add(answerPanel(answer));
         }
 
         return panel;
     }
 
-    public Container answerPanel(ArrayList<Object> answer, JFrame frame) {
+    public Container answerPanel(ArrayList<Object> answer) {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.LINE_AXIS));
 
-        //TextArea
-        //Checkbox
-        //Button
+        JTextArea textArea = new JTextArea((String) answer.get(0));
+        textArea.setLineWrap(true);
+        panel.add(textArea);
+        //Action
+
+        JCheckBox checkBox = new JCheckBox();
+        checkBox.setSelected((boolean) answer.get(1));
+        panel.add(checkBox);
+        //Action
+
+        JButton button = new JButton("Usuń");
+        panel.add(button);
+        //Action
 
         return panel;
     }
 
     private static void createAndShowGUI() {
-        JFrame frame = new JFrame("0 - Edytor");
+        JFrame frame = new JFrame("Edytor");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         TestownikEdytor te = new TestownikEdytor();
-        frame.setJMenuBar(te.createJMenu(frame));
-        frame.setContentPane(te.createContentPane(frame));
+        frame.setJMenuBar(te.createJMenu());
+        frame.setContentPane(te.createContentPane());
+
+        //deal with resizing
 
         frame.pack();
         frame.setLocationRelativeTo(null);
