@@ -229,16 +229,61 @@ public class TestownikEdytor {
         JTextArea textArea = new JTextArea((String) answer.get(0));
         textArea.setLineWrap(true);
         panel.add(textArea);
-        //Action
+
+        textArea.getDocument().addDocumentListener(new DocumentListener() {
+            @Override
+            public void insertUpdate(DocumentEvent documentEvent) {
+                answer.set(0, textArea.getText());
+            }
+
+            @Override
+            public void removeUpdate(DocumentEvent documentEvent) {
+                answer.set(0, textArea.getText());
+            }
+
+            @Override
+            public void changedUpdate(DocumentEvent documentEvent) {
+                answer.set(0, textArea.getText());
+            }
+        });
 
         JCheckBox checkBox = new JCheckBox();
         checkBox.setSelected((boolean) answer.get(1));
         panel.add(checkBox);
-        //Action
+
+        checkBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                answer.set(1,checkBox.isSelected());
+            }
+        });
 
         JButton button = new JButton("Usuń");
         panel.add(button);
-        //Action
+
+        button.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                int idx = question.getAnswers().indexOf(answer);
+
+                if (question.getAnswers().size() > 1) {
+                    question.getAnswers().remove(idx);
+                }
+                else {
+                    question.getAnswers().remove(idx);
+
+                    ArrayList<Object> answerEntry = new ArrayList<>();
+                    answerEntry.add("");
+                    answerEntry.add(false);
+
+                    question.getAnswers().add(answerEntry);
+                }
+
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                frame.setContentPane(createContentPane());
+                frame.validate();
+            }
+        });
 
         return panel;
     }
@@ -250,8 +295,6 @@ public class TestownikEdytor {
         TestownikEdytor te = new TestownikEdytor();
         frame.setJMenuBar(te.createJMenu());
         frame.setContentPane(te.createContentPane());
-
-        //deal with resizing
 
         frame.pack();
         frame.setLocationRelativeTo(null);
