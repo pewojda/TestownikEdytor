@@ -116,6 +116,7 @@ public class TestownikEdytor {
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
                 frame.setContentPane(createContentPane());
+                frame.setTitle("Edytor - "+question.getName()+".txt");
                 frame.validate();
             }
         });
@@ -157,6 +158,7 @@ public class TestownikEdytor {
 
                         JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
                         frame.setContentPane(createContentPane());
+                        frame.setTitle("Edytor - "+question.getName()+".txt");
                         frame.validate();
                     } catch (Exception e) {
                         JOptionPane.showMessageDialog(null, e.getMessage(), name, JOptionPane.ERROR_MESSAGE);
@@ -184,6 +186,9 @@ public class TestownikEdytor {
                     }
                 }
                 else saveAs();
+
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+                frame.setTitle("Edytor - "+question.getName()+".txt");
             }
         });
 
@@ -196,6 +201,8 @@ public class TestownikEdytor {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 saveAs();
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+                frame.setTitle("Edytor - "+question.getName()+".txt");
             }
         });
 
@@ -248,7 +255,7 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(null, "?", "?", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, question.toTxt(), "?", JOptionPane.PLAIN_MESSAGE);
             }
         });
 
@@ -384,10 +391,11 @@ public class TestownikEdytor {
     }
 
     private static void createAndShowGUI() {
-        JFrame frame = new JFrame("Edytor");
+        JFrame frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         TestownikEdytor te = new TestownikEdytor();
+        frame.setTitle("Edytor - "+te.getQuestion().getName()+".txt");
         frame.setJMenuBar(te.createJMenu());
         frame.setContentPane(te.createContentPane());
 
