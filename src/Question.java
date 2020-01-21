@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class Question {
@@ -89,8 +90,14 @@ public class Question {
         for (char correctKey : configLine.toCharArray()) {
             ArrayList<Object> answerEntry = new ArrayList<>();
 
-            answerEntry.add(sc.nextLine());
-            answerEntry.add((correctKey == '1'));
+            try {
+                answerEntry.add(sc.nextLine());
+                answerEntry.add((correctKey == '1'));
+            }
+            catch(NoSuchElementException e) {
+                answerEntry.add("");
+                answerEntry.add((correctKey == '1'));
+            }
 
             answers.add(answerEntry);
         }
