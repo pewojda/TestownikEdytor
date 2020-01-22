@@ -75,7 +75,13 @@ public class Question {
 
         Scanner sc = new Scanner(file);
 
-        String configLine = sc.nextLine().toUpperCase();
+        String configLine = "";
+        try {
+            configLine = sc.nextLine().toUpperCase();
+        } catch (NoSuchElementException e) {
+            throw new Exception("Uszkodzony lub nieprawidłowy plik!");
+        }
+
         if (configLine.charAt(0) == 'Y') {
             throw new Exception("Tylko pytania standardowe są wspierane!");
         }
@@ -84,7 +90,11 @@ public class Question {
         }
         configLine = configLine.substring(1);
 
-        this.text = sc.nextLine();
+        try {
+            this.text = sc.nextLine();
+        } catch (NoSuchElementException e) {
+            this.text = "";
+        }
 
         answers = new ArrayList<>();
         for (char correctKey : configLine.toCharArray()) {
@@ -93,8 +103,7 @@ public class Question {
             try {
                 answerEntry.add(sc.nextLine());
                 answerEntry.add((correctKey == '1'));
-            }
-            catch(NoSuchElementException e) {
+            } catch (NoSuchElementException e) {
                 answerEntry.add("");
                 answerEntry.add((correctKey == '1'));
             }
