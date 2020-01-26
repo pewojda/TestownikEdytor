@@ -269,13 +269,11 @@ public class TestownikEdytor {
     }
 
     public Container createContentPane() {
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
+        JPanel panel = new JPanel(new BorderLayout());
 
-        JScrollPane scrollPane = new JScrollPane(questionTextField());
-        panel.add(scrollPane);
-
-        panel.add(answersPanel());
+        JSplitPane splitPane = new JSplitPane(JSplitPane.VERTICAL_SPLIT, new JScrollPane(questionTextField()), new JScrollPane(answersPanel()));
+        splitPane.setResizeWeight(0.25);
+        panel.add(splitPane);
 
         return panel;
     }
@@ -310,7 +308,7 @@ public class TestownikEdytor {
         for (ArrayList<Object> answer : question.getAnswers()) {
             panel.add(answerPanel(answer));
             if (question.getAnswers().get(question.getAnswers().size() - 1) != answer) {
-                panel.add(Box.createRigidArea(new Dimension(0, 20)));
+                panel.add(Box.createRigidArea(new Dimension(0, 10)));
             }
         }
 
@@ -392,7 +390,7 @@ public class TestownikEdytor {
         frame.setContentPane(te.createContentPane());
 
         frame.pack();
-        frame.setMinimumSize(new Dimension(800, 600));
+        frame.setMinimumSize(new Dimension(300, 250));
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
