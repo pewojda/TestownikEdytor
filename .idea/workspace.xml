@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="4c9202e0-04bf-4e19-aea9-868e936c1300" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/TestownikEdytor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestownikEdytor.java" afterDir="false" />
-    </list>
+    <list default="true" id="4c9202e0-04bf-4e19-aea9-868e936c1300" name="Default Changelist" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -31,6 +28,9 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Artifacts" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.2" />
     <property name="settings.editor.selected.configurable" value="com.codota.intellij.common.configuration.CodotaConfigurable" />
   </component>
   <component name="RunManager">
@@ -82,6 +82,10 @@
     </state>
     <state x="976" y="142" key="#com.intellij.ide.util.MemberChooser/0.0.1366.728@0.0.1366.728" timestamp="1579649826514" />
     <state x="1375" y="203" key="#com.intellij.ide.util.MemberChooser/0.0.1920.1040@0.0.1920.1040" timestamp="1579046781079" />
+    <state x="793" y="380" key="#com.intellij.ide.util.TreeClassChooserDialog" timestamp="1580216329190">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="793" y="380" key="#com.intellij.ide.util.TreeClassChooserDialog/0.0.1920.1040@0.0.1920.1040" timestamp="1580216329190" />
     <state x="463" y="120" key="FileChooserDialogImpl" timestamp="1579078916021">
       <screen x="0" y="0" width="1366" height="728" />
     </state>
@@ -106,10 +110,10 @@
     </state>
     <state width="1323" height="107" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1579997558903" />
     <state width="1521" height="250" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1580216232871" />
-    <state x="543" y="171" key="SettingsEditor" timestamp="1580050750444">
+    <state x="543" y="171" key="SettingsEditor" timestamp="1580216342845">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
-    <state x="543" y="171" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1580050750444" />
+    <state x="543" y="171" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1580216342845" />
     <state x="798" y="222" width="672" height="678" key="search.everywhere.popup" timestamp="1579046974909">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TestownikEdytor:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/TestownikEdytor_jar</output-path>
+    <root id="archive" name="TestownikEdytor.jar">
+      <element id="module-output" name="TestownikEdytor" />
+    </root>
+  </artifact>
+</component>
