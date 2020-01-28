@@ -250,7 +250,19 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(null, question.toTxt(), "?", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "Dołączanie obrazów:\n" +
+                                "[IMG]xxx.png[/IMG]\n" +
+                                "Dozwolony jest tylko format \"png\". \n" +
+                                "Dodanie obrazu powoduje pominięcie reszty tekstu podczas wyświetlania pytania lub odpowiedzi.\n" +
+                                "Plik powinien być w tym samym folderze bazy.\n" +
+                                "\n" +
+                                "Zapis:\n" +
+                                "xxx.txt\n" +
+                                "Numerację należy zaczynać od 000. W starszej wersji inne pliki są ignorowane.\n" +
+                                "Dla starej wersji testownika pytania powinny być umieszczone w folderze \"baza\". \n" +
+                                "Nowy testownik pozwala na wybór dowolnego folderu.",
+                        "Pomoc", JOptionPane.PLAIN_MESSAGE);
             }
         });
 
@@ -261,7 +273,7 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JOptionPane.showMessageDialog(null, question.debugString(), "?", JOptionPane.PLAIN_MESSAGE);
+                JOptionPane.showMessageDialog(null, "TestownikEdytor\nProjekt zaliczeniowy \"Programowanie w języku Java\"\nPW 2020", "O...", JOptionPane.PLAIN_MESSAGE);
             }
         });
 

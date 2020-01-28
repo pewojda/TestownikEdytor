@@ -30,7 +30,7 @@
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
-    <property name="settings.editor.selected.configurable" value="instant.run" />
+    <property name="settings.editor.selected.configurable" value="com.codota.intellij.common.configuration.CodotaConfigurable" />
   </component>
   <component name="RunManager">
     <configuration name="TestownikEdytor" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
@@ -85,26 +85,30 @@
       <screen x="0" y="0" width="1366" height="728" />
     </state>
     <state x="463" y="120" key="FileChooserDialogImpl/0.0.1366.728@0.0.1366.728" timestamp="1579078916021" />
-    <state width="1323" height="107" key="GridCell.Tab.0.bottom" timestamp="1579997558903">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1521" height="250" key="GridCell.Tab.0.bottom" timestamp="1580215412783">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="107" key="GridCell.Tab.0.bottom/0.0.1366.728@0.0.1366.728" timestamp="1579997558903" />
-    <state width="1521" height="254" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1579435727025" />
-    <state width="1323" height="107" key="GridCell.Tab.0.center" timestamp="1579997558903">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1521" height="250" key="GridCell.Tab.0.bottom/0.0.1920.1040@0.0.1920.1040" timestamp="1580215412783" />
+    <state width="1521" height="250" key="GridCell.Tab.0.center" timestamp="1580215412783">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="107" key="GridCell.Tab.0.center/0.0.1366.728@0.0.1366.728" timestamp="1579997558903" />
-    <state width="1521" height="254" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1579435727025" />
-    <state width="1323" height="107" key="GridCell.Tab.0.left" timestamp="1579997558903">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1521" height="250" key="GridCell.Tab.0.center/0.0.1920.1040@0.0.1920.1040" timestamp="1580215412783" />
+    <state width="1521" height="250" key="GridCell.Tab.0.left" timestamp="1580215412783">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="107" key="GridCell.Tab.0.left/0.0.1366.728@0.0.1366.728" timestamp="1579997558903" />
-    <state width="1521" height="254" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1579435727025" />
-    <state width="1323" height="107" key="GridCell.Tab.0.right" timestamp="1579997558903">
-      <screen x="0" y="0" width="1366" height="728" />
+    <state width="1521" height="250" key="GridCell.Tab.0.left/0.0.1920.1040@0.0.1920.1040" timestamp="1580215412783" />
+    <state width="1521" height="250" key="GridCell.Tab.0.right" timestamp="1580215412783">
+      <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state width="1323" height="107" key="GridCell.Tab.0.right/0.0.1366.728@0.0.1366.728" timestamp="1579997558903" />
-    <state width="1521" height="254" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1579435727025" />
+    <state width="1521" height="250" key="GridCell.Tab.0.right/0.0.1920.1040@0.0.1920.1040" timestamp="1580215412783" />
+    <state x="543" y="171" key="SettingsEditor" timestamp="1580050750444">
+      <screen x="0" y="0" width="1920" height="1040" />
+    </state>
+    <state x="543" y="171" key="SettingsEditor/0.0.1920.1040@0.0.1920.1040" timestamp="1580050750444" />
     <state x="798" y="222" width="672" height="678" key="search.everywhere.popup" timestamp="1579046974909">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
