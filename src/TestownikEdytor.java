@@ -25,7 +25,7 @@ public class TestownikEdytor {
 
     private void newQuestion() {
         question = new Question();
-        question.setName("000");
+        question.setName("001");
         question.setText("");
     }
 
@@ -252,14 +252,14 @@ public class TestownikEdytor {
             public void actionPerformed(ActionEvent actionEvent) {
                 JOptionPane.showMessageDialog(null,
                         "Dołączanie obrazów:\n" +
-                                "[IMG]xxx.png[/IMG]\n" +
+                                "[img]xxx.png[/img]\n" +
                                 "Dozwolony jest tylko format \"png\". \n" +
                                 "Dodanie obrazu powoduje pominięcie reszty tekstu podczas wyświetlania pytania lub odpowiedzi.\n" +
                                 "Plik powinien być w tym samym folderze bazy.\n" +
                                 "\n" +
                                 "Zapis:\n" +
                                 "xxx.txt\n" +
-                                "Numerację należy zaczynać od 000. W starszej wersji inne pliki są ignorowane.\n" +
+                                "Numerację należy zaczynać od 001. W starszej wersji inna numeracja jest ignorowana.\n" +
                                 "Dla starej wersji testownika pytania powinny być umieszczone w folderze \"baza\". \n" +
                                 "Nowy testownik pozwala na wybór dowolnego folderu.",
                         "Pomoc", JOptionPane.PLAIN_MESSAGE);
