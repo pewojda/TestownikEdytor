@@ -1,4 +1,4 @@
 # TestownikEdytor
-Question file editor for Testownik app :beer:.
+Question file editor for Testownik app :beer:
 
 ![Screenshot](screenshot.png)
