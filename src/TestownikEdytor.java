@@ -141,7 +141,7 @@ public class TestownikEdytor {
             public void actionPerformed(ActionEvent actionEvent) {
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
 
-                String newName = JOptionPane.showInputDialog(frame, "What's your name?");
+                String newName = JOptionPane.showInputDialog(frame, "Podaj nową nazwę pliku:");
 
                 if (newName!= null && !newName.trim().isEmpty()) {
                     testownikEdytorController.newQuestion();

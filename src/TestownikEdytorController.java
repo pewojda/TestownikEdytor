@@ -1,6 +1,5 @@
 import javax.swing.*;
 import javax.swing.filechooser.FileFilter;
-import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.Charset;

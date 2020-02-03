@@ -8,8 +8,8 @@
   <component name="ChangeListManager">
     <list default="true" id="4c9202e0-04bf-4e19-aea9-868e936c1300" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Question.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/Question.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/TestownikEdytor.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestownikEdytor.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/TestownikEdytorController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/TestownikEdytorController.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
