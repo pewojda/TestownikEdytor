@@ -33,7 +33,8 @@ public class Question {
         this.answers = answers;
     }
 
-    public String toTxt() {
+    @Override
+    public String toString() {
         StringBuilder temp = new StringBuilder("X");
 
         for (ArrayList<Object> i : answers) {

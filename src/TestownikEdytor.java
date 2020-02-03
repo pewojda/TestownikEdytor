@@ -3,91 +3,26 @@ import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import java.awt.*;
 import java.awt.event.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.charset.Charset;
-import java.nio.file.Files;
 import java.util.ArrayList;
-import java.util.stream.Stream;
-import javax.swing.filechooser.*;
 
 public class TestownikEdytor {
-    Question question;
-    File currentDirectory;
+    private TestownikEdytorController testownikEdytorController;
 
-    public Question getQuestion() {
-        return question;
+    public TestownikEdytorController getController() {
+        return testownikEdytorController;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    private void updateFrame(JFrame frame) {
+        frame.setContentPane(createContentPane());
+        frame.validate();
     }
 
-    private void newQuestion() {
-        question = new Question();
-        question.setName("001");
-        question.setText("");
+    private void updateFrameTitle(JFrame frame) {
+        frame.setTitle("Edytor - " + testownikEdytorController.getQuestion().getName() + ".txt");
     }
 
-    private String fileToString(File file) {
-        StringBuilder temp = new StringBuilder();
-
-        try {
-            Stream<String> stream = Files.lines(file.toPath(), Charset.forName("windows-1250"));
-            stream.forEach(s -> temp.append(s).append("\n"));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        return temp.toString();
-    }
-
-    private void saveAs() {
-        JFileChooser fc = new JFileChooser();
-        fc.setCurrentDirectory(currentDirectory);
-        fc.setFileFilter(new FileFilter() {
-            @Override
-            public boolean accept(File file) {
-                if (file.isDirectory()) {
-                    return true;
-                }
-
-                return file.getName().endsWith(".txt");
-            }
-
-            @Override
-            public String getDescription() {
-                return "Pytanie (*.txt)";
-            }
-        });
-
-        fc.setSelectedFile(new File(question.getName() + ".txt"));
-
-        if (fc.showSaveDialog(null) == JFileChooser.APPROVE_OPTION) {
-            File file = fc.getSelectedFile();
-
-            if (file.exists()) {
-                if (JOptionPane.showConfirmDialog(null, "Wybrany plik istnieje!\n Czy nadpisać?", "Błąd", JOptionPane.YES_NO_OPTION) == JOptionPane.NO_OPTION) {
-                    return;
-                }
-            }
-
-            if (!file.getName().endsWith(".txt")) file = new File(file.getAbsolutePath() + ".txt");
-
-            try {
-                Files.writeString(file.toPath(), question.toTxt(), Charset.forName("windows-1250"));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-
-            question.setName(file.getName().substring(0, file.getName().length() - 4));
-            currentDirectory = fc.getCurrentDirectory();
-        }
-    }
-
-    public TestownikEdytor() {
-        newQuestion();
-        currentDirectory = new File(".");
+    private void updateFrameTitleModified(JFrame frame) {
+        frame.setTitle("Edytor - *" + testownikEdytorController.getQuestion().getName() + ".txt");
     }
 
     private JMenuBar createJMenu() {
@@ -109,12 +44,11 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                newQuestion();
+                testownikEdytorController.newQuestion();
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
-                frame.setContentPane(createContentPane());
-                frame.setTitle("Edytor - " + question.getName() + ".txt");
-                frame.validate();
+                updateFrameTitle(frame);
+                updateFrame(frame);
             }
         });
 
@@ -126,40 +60,11 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                JFileChooser fc = new JFileChooser();
-                fc.setCurrentDirectory(currentDirectory);
-                fc.setFileFilter(new FileFilter() {
-                    @Override
-                    public boolean accept(File file) {
-                        if (file.isDirectory()) {
-                            return true;
-                        }
+                testownikEdytorController.open();
 
-                        return file.getName().endsWith(".txt");
-                    }
-
-                    @Override
-                    public String getDescription() {
-                        return "Pytanie (*.txt)";
-                    }
-                });
-
-                if (fc.showOpenDialog(null) == JFileChooser.APPROVE_OPTION) {
-                    File file = fc.getSelectedFile();
-                    String name = file.getName().substring(0, file.getName().length() - 4);
-
-                    try {
-                        question = new Question(name, fileToString(file));
-
-                        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
-                        frame.setContentPane(createContentPane());
-                        frame.setTitle("Edytor - " + question.getName() + ".txt");
-                        frame.validate();
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(null, e.getMessage(), name, JOptionPane.ERROR_MESSAGE);
-                    }
-                    currentDirectory = fc.getCurrentDirectory();
-                }
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+                updateFrameTitle(frame);
+                updateFrame(frame);
             }
         });
 
@@ -171,18 +76,10 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                File file = new File(currentDirectory.getAbsolutePath() + "\\" + question.getName() + ".txt");
-
-                if (file.exists()) {
-                    try {
-                        Files.writeString(file.toPath(), question.toTxt(), Charset.forName("windows-1250"));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                } else saveAs();
+                testownikEdytorController.save();
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
-                frame.setTitle("Edytor - " + question.getName() + ".txt");
+                updateFrameTitle(frame);
             }
         });
 
@@ -194,10 +91,10 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                saveAs();
+                testownikEdytorController.saveAs();
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
-                frame.setTitle("Edytor - " + question.getName() + ".txt");
+                updateFrameTitle(frame);
             }
         });
 
@@ -226,15 +123,32 @@ public class TestownikEdytor {
         menuItem.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                ArrayList<Object> answerEntry = new ArrayList<>();
-                answerEntry.add("");
-                answerEntry.add(false);
-
-                question.getAnswers().add(answerEntry);
+                testownikEdytorController.addAnswer();
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
-                frame.setContentPane(createContentPane());
-                frame.validate();
+                updateFrameTitleModified(frame);
+                testownikEdytorController.setModified(true);
+                updateFrame(frame);
+            }
+        });
+
+        menuItem = new JMenuItem("Zmień nazwę");
+        menuItem.setMnemonic(KeyEvent.VK_Z);
+        menu.add(menuItem);
+
+        menuItem.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent actionEvent) {
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(menuBar);
+
+                String newName = JOptionPane.showInputDialog(frame, "What's your name?");
+
+                if (newName!= null && !newName.trim().isEmpty()) {
+                    testownikEdytorController.newQuestion();
+                    testownikEdytorController.getQuestion().setName(newName);
+                    updateFrameTitle(frame);
+                    updateFrame(frame);
+                }
             }
         });
 
@@ -291,22 +205,31 @@ public class TestownikEdytor {
     }
 
     public Container questionTextField() {
-        JTextField textField = new JTextField(question.getText());
+        JTextField textField = new JTextField(testownikEdytorController.getQuestion().getText());
 
         textField.getDocument().addDocumentListener(new DocumentListener() {
             @Override
             public void insertUpdate(DocumentEvent documentEvent) {
-                question.setText(textField.getText());
+                testownikEdytorController.getQuestion().setText(textField.getText());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(textField);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
 
             @Override
             public void removeUpdate(DocumentEvent documentEvent) {
-                question.setText(textField.getText());
+                testownikEdytorController.getQuestion().setText(textField.getText());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(textField);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
 
             @Override
             public void changedUpdate(DocumentEvent documentEvent) {
-                question.setText(textField.getText());
+                testownikEdytorController.getQuestion().setText(textField.getText());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(textField);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
         });
 
@@ -317,9 +240,9 @@ public class TestownikEdytor {
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
-        for (ArrayList<Object> answer : question.getAnswers()) {
+        for (ArrayList<Object> answer : testownikEdytorController.getQuestion().getAnswers()) {
             panel.add(answerPanel(answer));
-            if (question.getAnswers().get(question.getAnswers().size() - 1) != answer) {
+            if (testownikEdytorController.getQuestion().getAnswers().get(testownikEdytorController.getQuestion().getAnswers().size() - 1) != answer) {
                 panel.add(Box.createRigidArea(new Dimension(0, 10)));
             }
         }
@@ -339,16 +262,25 @@ public class TestownikEdytor {
             @Override
             public void insertUpdate(DocumentEvent documentEvent) {
                 answer.set(0, textField.getText());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
 
             @Override
             public void removeUpdate(DocumentEvent documentEvent) {
                 answer.set(0, textField.getText());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
 
             @Override
             public void changedUpdate(DocumentEvent documentEvent) {
                 answer.set(0, textField.getText());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
         });
 
@@ -360,6 +292,9 @@ public class TestownikEdytor {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
                 answer.set(1, checkBox.isSelected());
+                JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
             }
         });
 
@@ -369,23 +304,12 @@ public class TestownikEdytor {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent actionEvent) {
-                int idx = question.getAnswers().indexOf(answer);
-
-                if (question.getAnswers().size() > 1) {
-                    question.getAnswers().remove(idx);
-                } else {
-                    question.getAnswers().remove(idx);
-
-                    ArrayList<Object> answerEntry = new ArrayList<>();
-                    answerEntry.add("");
-                    answerEntry.add(false);
-
-                    question.getAnswers().add(answerEntry);
-                }
+                testownikEdytorController.removeAnswer(answer);
 
                 JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(panel);
-                frame.setContentPane(createContentPane());
-                frame.validate();
+                testownikEdytorController.setModified(true);
+                updateFrameTitleModified(frame);
+                updateFrame(frame);
             }
         });
 
@@ -394,12 +318,20 @@ public class TestownikEdytor {
 
     private static void createAndShowGUI() {
         JFrame frame = new JFrame();
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        TestownikEdytor te = new TestownikEdytor();
-        frame.setTitle("Edytor - " + te.getQuestion().getName() + ".txt");
-        frame.setJMenuBar(te.createJMenu());
-        frame.setContentPane(te.createContentPane());
+        TestownikEdytor testownikEdytor = new TestownikEdytor();
+        testownikEdytor.testownikEdytorController = new TestownikEdytorController();
+
+        frame.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosing(WindowEvent e) {
+                testownikEdytor.getController().exitApp();
+            }
+        });
+
+        frame.setTitle("Edytor - " + testownikEdytor.getController().getQuestion().getName() + ".txt");
+        frame.setJMenuBar(testownikEdytor.createJMenu());
+        frame.setContentPane(testownikEdytor.createContentPane());
 
         frame.pack();
         frame.setMinimumSize(new Dimension(300, 250));
