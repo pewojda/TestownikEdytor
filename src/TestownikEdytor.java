@@ -144,7 +144,6 @@ public class TestownikEdytor {
                 String newName = JOptionPane.showInputDialog(frame, "Podaj nową nazwę pliku:");
 
                 if (newName!= null && !newName.trim().isEmpty()) {
-                    testownikEdytorController.newQuestion();
                     testownikEdytorController.getQuestion().setName(newName);
                     updateFrameTitle(frame);
                     updateFrame(frame);
