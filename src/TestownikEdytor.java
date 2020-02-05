@@ -145,7 +145,8 @@ public class TestownikEdytor {
 
                 if (newName!= null && !newName.trim().isEmpty()) {
                     testownikEdytorController.getQuestion().setName(newName);
-                    updateFrameTitle(frame);
+                    updateFrameTitleModified(frame);
+                    testownikEdytorController.setModified(true);
                     updateFrame(frame);
                 }
             }
